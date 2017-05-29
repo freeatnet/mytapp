@@ -1,0 +1,2 @@
+class ApplicantFormController < ApplicationController
+end
