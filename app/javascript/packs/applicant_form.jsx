@@ -6,6 +6,25 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
+function labelToName(label){
+	return label.toLowerCase().replace(/ /g, '_');
+}
+
+function postRoute(link, data){
+	debugger;
+	fetch(link, {
+	  method: 'POST',
+	  headers: {
+	    'Accept': 'application/json',
+	    // 'Content-Type': 'application/json',
+	  },
+	  body: data
+	}).then(function(response){
+		return response.json();
+	}).then(function(data){
+		console.log(data);
+	})
+}
 
 class LabeledField extends React.Component {
 	constructor(label){
@@ -18,8 +37,8 @@ class LabeledField extends React.Component {
 	render(){
 		return(
 			<formgroup>
-				<label>{this.state.label}</label>
-				<input type="text" />
+				<label>{this.state.label} :</label>
+				<input type="text" name={labelToName(this.state.label)}/>
 			</formgroup>
 		);
 	}
@@ -35,8 +54,8 @@ class QuestionField extends React.Component{
 	render(){
 		return(
 			<formgroup>
-			<p>{this.state.question}</p>
-			<textarea></textarea>
+			<p>{this.state.question} :</p>
+			<textarea name={labelToName(this.state.question)}></textarea>
 			</formgroup>
 		);
 	}
@@ -46,7 +65,7 @@ class ApplicantForm extends React.Component {
 	constructor(){
 		super();
 		this.state = {
-			textfields: ["First Names", "Last Name", "Student Number", "Email"],
+			textfields: ["First Name", "Last Name", "Student Number", "Email"],
 			questions: ["Address", "1st Choice Courses", "2nd Choice Courses",
 				"3rd Choice Courses", "Courses Taken", "Courses Taking"],
 		};
@@ -58,18 +77,19 @@ class ApplicantForm extends React.Component {
 		return (<QuestionField value={question}/>);
 	}
 	renderSubmit(){
-		return(<button onClick={() => this.submitForm()}>Submit</button>);
+		return(<button type ="button" onClick={() => this.submitForm()}>Submit</button>);
 	}
 	listRepeatItems(func, items){
 		const fields = items;
 		let list = [];
 		for(let i = 0; i < fields.length; i++){
-			list.push(func(fields[i]+": "));
+			list.push(func(fields[i]));
 		}
 		return (list);
 	}
 	submitForm(){
-		alert('submitted');
+		const data = new FormData(document.querySelector('form'));
+		postRoute('/applicant_form', data);
 	}
 	render(){
 		return(
