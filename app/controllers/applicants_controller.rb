@@ -5,8 +5,20 @@ class ApplicantsController < ApplicationController
   end
 
   def create
-    # Figure out how to spit out body!
-    render plain: params[:firstName].inspect
+    @applicant = Applicant.new(applicant_params)
+    if @applicant.save
+      render @applicant
+    else
+      render 'new'
+    end
   end
 
+  def index
+  end
+
+  private
+    def applicant_params
+      # require accepts a key
+      params.require(:applicant).permit(:first_name, :last_name, :utorid, :email, :studentno, :program, :year)
+    end
 end

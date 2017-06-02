@@ -7,8 +7,8 @@ class ApplicantForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       utorid: "",
       email: "",
       studentno: "",
@@ -36,14 +36,15 @@ class ApplicantForm extends React.Component {
 
   // On form submission this handler is triggered
   handleSubmit(event) {
-    // alert('Form submitted!');
     const reqHeaders = new Headers();
+    reqHeaders.append("Content-Type", "application/json");
+
     const init = { method: 'POST',
       headers: reqHeaders,
-      body: this.state
+      body: JSON.stringify(this.state)
       }
 
-    debugger;
+    // debugger;
 
     const req = new Request('/applicants', init);
     fetch(req).then((response) => {
@@ -58,11 +59,11 @@ class ApplicantForm extends React.Component {
         <Form inline>
           <FormGroup>
             <Label for="firstName">First Name</Label>
-            <Input name="firstName" id="firstName" value={this.state.firstName} placeholder="First Name" onChange={this.handleChange} />
+            <Input name="first_name" id="first_name" value={this.state.first_name} placeholder="First Name" onChange={this.handleChange} />
           </FormGroup>
           <FormGroup>
             <Label for="lastName">Last Name</Label>
-            <Input name="lastName" id="lastName" value={this.state.lastName} placeholder="Last Name" onChange={this.handleChange} />
+            <Input name="last_name" id="last_name" value={this.state.last_name} placeholder="Last Name" onChange={this.handleChange} />
           </FormGroup>
         </Form>
         <Form>
