@@ -6,21 +6,27 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
+// class HelloReact extends React.Component {
 const Hello = props => (
-  <div>Hello {props.name}!</div>
+  <div>
+    <h1>Hello {props.name}!</h1>
+    <h2> {props.school} </h2>
+  </div>
 )
 
 Hello.defaultProps = {
-  name: 'Arseniy'
+  name: 'Arseniy',
+  school: 'UofT - SG',
 }
 
 Hello.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  school: PropTypes.string,
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name="React" />,
+    <Hello />,
     document.body.appendChild(document.createElement('div')),
   )
 })
